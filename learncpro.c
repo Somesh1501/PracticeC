@@ -1,12 +1,16 @@
 #include <stdio.h>
 
+void regist();
+void login();
+void erase();
+
 void main()
 {
     int uinput;
 
     printf("\t\"LEARN C PROGRAMMING.\"\n");
     printf("1.Login (Existing User)\n2.Register (New User)\n");
-    scanf("%d",&uinput);
+    scanf("%d", &uinput);
     if (uinput==1)
     login();
     else if (uinput==2)
@@ -18,44 +22,50 @@ void main()
 
 void login()
 {
-    FILE fp;
-    char  username[35], password[32];
-    fp = fopen("db.txt", "r");
+    FILE *fp;
+    char  username[32], password[32];
+    fp = fopen("db.txt", "r+");
     printf("Username : ");
-    scanf("%s", &username);
+    scanf("%s", username);
     printf("Password : ");
-    scanf("%s", &password);
-    if (sizeof(fp)==0)
-
+    scanf("%s", password);
+    if (getc(fp)==EOF)
+    regist();
+    else
+    checklog(username, password);
+    fclose(fp);
 }
 
 void regist()
 {
-    FILE fp;
+    FILE *fp;
     int i;
     char name[32], dob[32], homeadd[100], city[32], state[32], uname[32], passw[32];
-    char var[] = {"name", "dob", "homeadd", "city", "state", "uname", "passw"};
     fp = fopen("db.txt", "a+");
+    erase();
     printf("Please Enter right details.\n");
     printf("Name : ");
-    scanf("%s", &name);
+    scanf("%s", name);
     printf("DoB : ");
-    scanf("%s", &dob);
+    scanf("%s", dob);
     printf("Home Address : ");
-    scanf("%s", &homeadd);
+    scanf("%s", homeadd);
     printf("City/Village : ");
-    scanf("%s", &city);
+    scanf("%s", city);
     printf("State : ");
-    scanf("%s", &state);
+    scanf("%s", state);
     printf("Username : ");
-    scanf("%s", &uname);
+    scanf("%s", uname);
     printf("Password : ");
-    scanf("%s", &passw);
-    for (i=0; i<=sizeof(var);i++)
-    {
-        fprintf(fp, "%d ");
-    }
-
+    scanf("%s", passw);
+    fprintf(fp, "name : ", name);
+    fprintf(fp, "dob : ", dob);
+    fprintf(fp, "homeadd : ", homeadd);
+    fprintf(fp, "city : ", city);
+    fprintf(fp, "state : ", state);
+    fprintf(fp, "uname : ", uname);
+    fprintf(fp, "passw : ", passw);
+    fclose(fp);
 }
 
 void home()
@@ -83,6 +93,11 @@ void home()
             recurse();
         }
         }
+}
+
+void checklog(char username, char password)
+{
+    printf("WELCOME, %s", username);
 }
 
 void erase()
